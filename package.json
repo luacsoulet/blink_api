@@ -1,0 +1,36 @@
+{
+  "name": "blink_api",
+  "version": "1.0.0",
+  "description": "\"A secure and documented RESTful API for a mini social media application built with Fastify, TypeScript, PostgreSQL, and Swagger.",
+  "homepage": "https://github.com/luacsoulet/blink_api#readme",
+  "bugs": {
+    "url": "https://github.com/luacsoulet/blink_api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luacsoulet/blink_api.git"
+  },
+  "license": "ISC",
+  "author": "luacsoulet: https://github.com/luacsoulet",
+  "type": "commonjs",
+  "main": "src/server.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.23",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@fastify/jwt": "^9.1.0",
+    "@fastify/swagger": "^9.5.1",
+    "@fastify/swagger-ui": "^5.2.2",
+    "@types/bcrypt": "^5.0.2",
+    "bcrypt": "^6.0.0",
+    "fastify": "^5.3.3",
+    "pg": "^8.16.0",
+    "pino-pretty": "^13.0.0"
+  }
+}
