@@ -17,7 +17,8 @@ export const loginUser = async (request: FastifyRequest<{ Body: LoginDto }>, rep
             return reply.code(401).send({ message: 'Invalid credentials' });
         }
 
-        const isValidPassword = await bcrypt.compare(password, user.password);
+        const isValidPassword = await bcrypt.compare(password, user.password_hash);
+
         if (!isValidPassword) {
             return reply.code(401).send({ message: 'Invalid credentials' });
         }
