@@ -6,6 +6,7 @@ import postgres from '@fastify/postgres';
 import { config } from 'dotenv';
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
+import postRoutes from './routes/postRoutes';
 
 config();
 
@@ -141,6 +142,7 @@ app.register(jwt, {
 
 app.register(authRoutes, { prefix: '/api/v1/auth' });
 app.register(userRoutes, { prefix: '/api/v1/users' });
+app.register(postRoutes, { prefix: '/api/v1/posts' });
 app.get('/api/v1/ping', async () => {
     return { status: 'ok' };
 });
