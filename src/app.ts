@@ -105,6 +105,22 @@ app.register(swagger, {
                         }
                     }
                 }
+            },
+            RegisterRequest: {
+                type: 'object',
+                properties: {
+                    username: { type: 'string' },
+                    email: { type: 'string', format: 'email' },
+                    password: { type: 'string', minLength: 6 }
+                }
+            },
+            RegisterResponse: {
+                type: 'object',
+                properties: {
+                    id: { type: 'number' },
+                    username: { type: 'string' },
+                    email: { type: 'string' }
+                }
             }
         }
     }
