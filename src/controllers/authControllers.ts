@@ -28,6 +28,8 @@ export const loginUser = async (request: FastifyRequest<{ Body: LoginDto }>, rep
             email: user.email,
             username: user.username,
             is_admin: user.is_admin
+        }, {
+            expiresIn: '2h'
         });
 
         return { token, user: { id: user.id, email: user.email, username: user.username, is_admin: user.is_admin } };
