@@ -151,3 +151,39 @@ export const modifyPostSchema: FastifySchema = {
         }
     }
 }
+
+export const deletePostSchema: FastifySchema = {
+    description: 'Delete a post',
+    tags: ['Posts'],
+    security: [{ bearerAuth: [] }],
+    response: {
+        200: {
+            description: 'Post deleted successfully',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        },
+        401: {
+            description: 'Unauthorized - Token missing or invalid',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        },
+        404: {
+            description: 'Post not found',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        },
+        500: {
+            description: 'Internal server error',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        }
+    }
+}
