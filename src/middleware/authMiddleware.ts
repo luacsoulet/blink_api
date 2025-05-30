@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 
-interface AuthenticatedUser {
+export interface AuthenticatedUser {
     id: number;
     email: string;
     username: string;
