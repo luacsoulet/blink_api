@@ -54,48 +54,6 @@ export const postsSchema: FastifySchema = {
     }
 }
 
-export const postsByUserSchema: FastifySchema = {
-    description: 'Get all posts by a user',
-    tags: ['Posts'],
-    response: {
-        200: {
-            description: 'Posts fetched successfully',
-            type: 'array',
-            items: {
-                type: 'object',
-                properties: {
-                    id: { type: 'number' },
-                    user_id: { type: 'number' },
-                    content: { type: 'string' },
-                    created_at: { type: 'string', format: 'date-time' },
-                    username: { type: 'string' }
-                }
-            }
-        },
-        400: {
-            description: 'Bad request',
-            type: 'object',
-            properties: {
-                message: { type: 'string' }
-            }
-        },
-        404: {
-            description: 'No posts found',
-            type: 'object',
-            properties: {
-                message: { type: 'string' }
-            }
-        },
-        500: {
-            description: 'Internal server error',
-            type: 'object',
-            properties: {
-                message: { type: 'string' }
-            }
-        }
-    }
-}
-
 export const createPostSchema: FastifySchema = {
     description: 'Create a new post',
     tags: ['Posts'],

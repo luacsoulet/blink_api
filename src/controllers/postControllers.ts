@@ -12,17 +12,6 @@ export const getPosts = async (request: FastifyRequest, reply: FastifyReply) => 
     }
 }
 
-export const getPostsByUser = async (request: FastifyRequest, reply: FastifyReply) => {
-    const { id } = request.params as { id: string };
-    const client = await request.server.pg.connect();
-    try {
-        const { rows } = await client.query('SELECT * FROM posts WHERE user_id = $1 ORDER BY created_at DESC', [id]);
-        return rows;
-    } finally {
-        client.release();
-    }
-}
-
 export const createPost = async (request: FastifyRequest, reply: FastifyReply) => {
     const { content } = request.body as CreatePostDto;
     const token = request.headers.authorization;

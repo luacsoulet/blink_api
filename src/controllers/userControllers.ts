@@ -20,3 +20,14 @@ export const getUserById = async (request: FastifyRequest, reply: FastifyReply) 
         client.release();
     }
 }
+
+export const getPostsByUser = async (request: FastifyRequest, reply: FastifyReply) => {
+    const { id } = request.params as { id: string };
+    const client = await request.server.pg.connect();
+    try {
+        const { rows } = await client.query('SELECT * FROM posts WHERE user_id = $1 ORDER BY created_at DESC', [id]);
+        return rows;
+    } finally {
+        client.release();
+    }
+}
