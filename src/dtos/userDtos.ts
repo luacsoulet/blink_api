@@ -198,3 +198,52 @@ export const modifyUserSchema: FastifySchema = {
         }
     }
 }
+
+export const deleteUserSchema: FastifySchema = {
+    description: 'Delete a user',
+    tags: ['Users'],
+    security: [{ bearerAuth: [] }],
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'number' }
+        }
+    },
+    response: {
+        200: {
+            description: 'User deleted successfully',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        },
+        400: {
+            description: 'Bad request',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        },
+        401: {
+            description: 'Unauthorized - Token missing or invalid',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        },
+        404: {
+            description: 'User not found',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        },
+        500: {
+            description: 'Internal server error',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        }
+    }
+}
