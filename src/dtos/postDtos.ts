@@ -7,6 +7,11 @@ export interface PostDto {
     created_at: Date;
 }
 
+export interface CreatePostDto {
+    title: string;
+    content: string;
+}
+
 export const postsSchema: FastifySchema = {
     description: 'Get all posts',
     tags: ['Posts'],
@@ -20,7 +25,8 @@ export const postsSchema: FastifySchema = {
                     id: { type: 'number' },
                     user_id: { type: 'number' },
                     content: { type: 'string' },
-                    created_at: { type: 'string', format: 'date-time' }
+                    created_at: { type: 'string', format: 'date-time' },
+                    username: { type: 'string' }
                 }
             }
         },
@@ -33,6 +39,51 @@ export const postsSchema: FastifySchema = {
         },
         404: {
             description: 'No posts found',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        },
+        500: {
+            description: 'Internal server error',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        }
+    }
+}
+
+export const createPostSchema: FastifySchema = {
+    description: 'Create a new post',
+    tags: ['Posts'],
+    security: [{ bearerAuth: [] }],
+    body: {
+        type: 'object',
+        properties: {
+            content: { type: 'string' }
+        }
+    },
+    response: {
+        201: {
+            description: 'Post created successfully',
+            type: 'object',
+            properties: {
+                user_id: { type: 'number' },
+                content: { type: 'string' },
+                created_at: { type: 'string', format: 'date-time' },
+                username: { type: 'string' }
+            }
+        },
+        400: {
+            description: 'Bad request',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        },
+        401: {
+            description: 'Unauthorized - Token missing or invalid',
             type: 'object',
             properties: {
                 message: { type: 'string' }
