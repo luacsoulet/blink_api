@@ -105,4 +105,4 @@ Once the server is running, visit:
 
 ## **👤 Author**
 
-**Lucas Magalhaes** – Full Stack Developer & AI/Data Student
+**Lucas Magalhaes** – Full Stack Developer Student
