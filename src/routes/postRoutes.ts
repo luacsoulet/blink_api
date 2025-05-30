@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
-import { createPost, getPosts, modifyPost } from "../controllers/postControllers";
-import { createPostSchema, modifyPostSchema, postsSchema } from "../dtos/postDtos";
+import { createPost, deletePost, getPosts, modifyPost } from "../controllers/postControllers";
+import { createPostSchema, deletePostSchema, modifyPostSchema, postsSchema } from "../dtos/postDtos";
 import { authenticate } from "../middleware/authMiddleware";
 
 export default async function postRoutes(fastify: FastifyInstance) {
@@ -17,4 +17,9 @@ export default async function postRoutes(fastify: FastifyInstance) {
         schema: modifyPostSchema,
         preHandler: [authenticate]
     }, modifyPost);
+
+    fastify.delete('/:id', {
+        schema: deletePostSchema,
+        preHandler: [authenticate]
+    }, deletePost);
 }
