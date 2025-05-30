@@ -98,3 +98,56 @@ export const createPostSchema: FastifySchema = {
         }
     }
 }
+
+export const modifyPostSchema: FastifySchema = {
+    description: 'Modify a post',
+    tags: ['Posts'],
+    security: [{ bearerAuth: [] }],
+    body: {
+        type: 'object',
+        properties: {
+            content: { type: 'string' }
+        }
+    },
+    response: {
+        200: {
+            description: 'Post modified successfully',
+            type: 'object',
+            properties: {
+                id: { type: 'number' },
+                user_id: { type: 'number' },
+                content: { type: 'string' },
+                created_at: { type: 'string', format: 'date-time' },
+                username: { type: 'string' }
+            }
+        },
+        400: {
+            description: 'Bad request',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        },
+        401: {
+            description: 'Unauthorized - Token missing or invalid',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        },
+        404: {
+            description: 'Post not found',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        },
+        500: {
+            description: 'Internal server error',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        }
+    }
+}
