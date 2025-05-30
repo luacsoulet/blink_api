@@ -54,3 +54,24 @@ export const modifyUser = async (request: FastifyRequest, reply: FastifyReply) =
         client.release();
     }
 }
+
+export const deleteUser = async (request: FastifyRequest, reply: FastifyReply) => {
+    const { id } = request.params as { id: number };
+    const token = request.headers.authorization;
+
+    if (!token) {
+        return reply.code(401).send({ message: 'Unauthorized' });
+    }
+    const decoded = await request.jwtVerify<AuthenticatedUser>();
+    const client = await request.server.pg.connect();
+
+    try {
+        const { rows } = await client.query('DELETE FROM users WHERE id = $1 AND id = $2 RETURNING *', [id, decoded.id]);
+        if (rows.length === 0) {
+            return reply.code(404).send({ message: 'User not found' });
+        }
+        return reply.code(200).send({ message: 'User deleted successfully' });
+    } finally {
+        client.release();
+    }
+}
