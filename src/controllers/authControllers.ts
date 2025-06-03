@@ -27,12 +27,13 @@ export const loginUser = async (request: FastifyRequest<{ Body: LoginDto }>, rep
             id: user.id,
             email: user.email,
             username: user.username,
-            is_admin: user.is_admin
+            is_admin: user.is_admin,
+            description: user.description
         }, {
             expiresIn: '2h'
         });
 
-        return { token, user: { id: user.id, email: user.email, username: user.username, is_admin: user.is_admin } };
+        return { token, user: { id: user.id, email: user.email, username: user.username, is_admin: user.is_admin, description: user.description } };
     } finally {
         client.release();
     }
@@ -71,11 +72,11 @@ export const registerUser = async (request: FastifyRequest<{ Body: RegisterDto }
 
         const hashedPassword = await bcrypt.hash(password, 10);
         const { rows } = await client.query(
-            'INSERT INTO users(username, email, password_hash, is_admin, created_at) VALUES($1, $2, $3, $4, $5) RETURNING id, username, email, is_admin',
-            [username, email, hashedPassword, false, new Date()]
+            'INSERT INTO users(username, email, password_hash, is_admin, created_at, description) VALUES($1, $2, $3, $4, $5, $6) RETURNING id, username, email, is_admin, description',
+            [username, email, hashedPassword, false, new Date(), null]
         );
 
-        return { id: rows[0].id, username: rows[0].username, email: rows[0].email };
+        return { id: rows[0].id, username: rows[0].username, email: rows[0].email, description: rows[0].description };
     } finally {
         client.release();
     }

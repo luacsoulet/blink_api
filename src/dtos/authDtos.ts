@@ -59,6 +59,10 @@ export const loginSchema: FastifySchema = {
                         is_admin: {
                             type: 'boolean',
                             description: 'Whether the user is an admin'
+                        },
+                        description: {
+                            type: 'string',
+                            description: 'User description'
                         }
                     }
                 }

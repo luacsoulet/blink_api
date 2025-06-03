@@ -4,6 +4,7 @@ export interface UserDto {
     id: number;
     username: string;
     email: string;
+    description: string;
     created_at: Date;
 }
 
@@ -20,6 +21,7 @@ export const usersSchema: FastifySchema = {
                     id: { type: 'number' },
                     username: { type: 'string' },
                     email: { type: 'string' },
+                    description: { type: 'string' },
                     created_at: { type: 'string', format: 'date-time' }
                 }
             }
@@ -65,6 +67,7 @@ export const userByIdSchema: FastifySchema = {
                 id: { type: 'number' },
                 username: { type: 'string' },
                 email: { type: 'string' },
+                description: { type: 'string' },
                 created_at: { type: 'string', format: 'date-time' }
             }
         },
@@ -154,7 +157,8 @@ export const modifyUserSchema: FastifySchema = {
         type: 'object',
         properties: {
             username: { type: 'string', nullable: true },
-            email: { type: 'string', nullable: true }
+            email: { type: 'string', nullable: true },
+            description: { type: 'string', nullable: true }
         }
     },
     response: {
@@ -165,6 +169,7 @@ export const modifyUserSchema: FastifySchema = {
                 id: { type: 'number' },
                 username: { type: 'string' },
                 email: { type: 'string' },
+                description: { type: 'string' },
                 created_at: { type: 'string', format: 'date-time' }
             }
         },
@@ -271,6 +276,7 @@ export const searchUsersByUsernameSchema: FastifySchema = {
                     id: { type: 'number' },
                     username: { type: 'string' },
                     email: { type: 'string' },
+                    description: { type: 'string' },
                     created_at: { type: 'string', format: 'date-time' }
                 }
             }

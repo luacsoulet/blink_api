@@ -59,7 +59,7 @@ export const getPostsByUser = async (request: FastifyRequest, reply: FastifyRepl
 
 export const modifyUser = async (request: FastifyRequest, reply: FastifyReply) => {
     const { id } = request.params as { id: number };
-    const { username, email } = request.body as { username?: string, email?: string };
+    const { username, email, description } = request.body as { username?: string, email?: string, description?: string };
 
     const token = request.headers.authorization;
     if (!token) {
@@ -69,7 +69,7 @@ export const modifyUser = async (request: FastifyRequest, reply: FastifyReply) =
     const client = await request.server.pg.connect();
 
     try {
-        const { rows } = await client.query('UPDATE users SET username = $1, email = $2 WHERE id = $3 AND id = $4 RETURNING *', [username, email, id, decoded.id]);
+        const { rows } = await client.query('UPDATE users SET username = $1, email = $2, description = $3 WHERE id = $4 AND id = $5 RETURNING *', [username, email, description, id, decoded.id]);
         if (rows.length === 0) {
             return reply.code(404).send({ message: 'User not found' });
         }
