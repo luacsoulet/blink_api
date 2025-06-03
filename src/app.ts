@@ -3,6 +3,8 @@ import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import jwt from '@fastify/jwt';
 import postgres from '@fastify/postgres';
+import cors from '@fastify/cors';
+import rateLimit from '@fastify/rate-limit';
 import { config } from 'dotenv';
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
@@ -20,6 +22,42 @@ const app: FastifyInstance = fastify({
 
 app.register(postgres, {
     connectionString: process.env.DATABASE_URL
+});
+
+app.register(cors, {
+    origin: ['*'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    credentials: true
+});
+
+app.register(rateLimit, {
+    global: true,
+    max: 100,
+    timeWindow: '1 minute',
+    hook: 'preHandler',
+    errorResponseBuilder: function (request, context) {
+        return {
+            code: 429,
+            error: 'Too Many Requests',
+            message: `Too many requests, try again in ${context.after}`,
+            date: Date.now(),
+            expiresIn: context.after
+        }
+    }
+});
+
+app.register(async function (fastify) {
+    fastify.addHook('onRoute', (routeOptions) => {
+        if (routeOptions.url.startsWith('/api/v1/auth') && routeOptions.method === 'POST') {
+            routeOptions.config = {
+                ...routeOptions.config,
+                rateLimit: {
+                    max: 10,
+                    timeWindow: '15 minutes'
+                }
+            }
+        }
+    });
 });
 
 app.register(swagger, {
