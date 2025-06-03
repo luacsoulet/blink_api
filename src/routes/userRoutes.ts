@@ -1,12 +1,16 @@
 import { FastifyInstance } from "fastify";
-import { deleteUser, getPostsByUser, getUserById, getUsers, modifyUser } from "../controllers/userControllers";
-import { deleteUserSchema, modifyUserSchema, userByIdSchema, userPostsSchema, usersSchema } from "../dtos/userDtos";
+import { deleteUser, getPostsByUser, getUserById, getUsers, modifyUser, searchUsersByUsername } from "../controllers/userControllers";
+import { deleteUserSchema, modifyUserSchema, searchUsersByUsernameSchema, userByIdSchema, userPostsSchema, usersSchema } from "../dtos/userDtos";
 import { authenticate } from "../middleware/authMiddleware";
 
 export default async function userRoutes(fastify: FastifyInstance) {
     fastify.get('/', {
         schema: usersSchema
     }, getUsers);
+
+    fastify.get('/search', {
+        schema: searchUsersByUsernameSchema
+    }, searchUsersByUsername);
 
     fastify.get('/:id', {
         schema: userByIdSchema
