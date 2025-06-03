@@ -22,6 +22,30 @@ export const getUserById = async (request: FastifyRequest, reply: FastifyReply) 
     }
 }
 
+export const searchUsersByUsername = async (request: FastifyRequest, reply: FastifyReply) => {
+    const { username } = request.query as { username: string };
+
+    if (!username) {
+        return reply.code(400).send({ message: 'Username parameter is required' });
+    }
+
+    const client = await request.server.pg.connect();
+    try {
+        const { rows } = await client.query(
+            'SELECT id, username, email, created_at FROM users WHERE username ILIKE $1 ORDER BY username',
+            [`${username}%`]
+        );
+
+        if (rows.length === 0) {
+            return reply.code(404).send({ message: 'No users found' });
+        }
+
+        return rows;
+    } finally {
+        client.release();
+    }
+};
+
 export const getPostsByUser = async (request: FastifyRequest, reply: FastifyReply) => {
     const { id } = request.params as { id: string };
     const client = await request.server.pg.connect();
