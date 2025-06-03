@@ -247,3 +247,54 @@ export const deleteUserSchema: FastifySchema = {
         }
     }
 }
+
+export const searchUsersByUsernameSchema: FastifySchema = {
+    description: 'Search users by username prefix',
+    tags: ['Users'],
+    querystring: {
+        type: 'object',
+        required: ['username'],
+        properties: {
+            username: {
+                type: 'string',
+                description: 'Username prefix to search for'
+            }
+        }
+    },
+    response: {
+        200: {
+            description: 'Users found successfully',
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    id: { type: 'number' },
+                    username: { type: 'string' },
+                    email: { type: 'string' },
+                    created_at: { type: 'string', format: 'date-time' }
+                }
+            }
+        },
+        400: {
+            description: 'Bad request',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        },
+        404: {
+            description: 'No users found',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        },
+        500: {
+            description: 'Internal server error',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        }
+    }
+};
