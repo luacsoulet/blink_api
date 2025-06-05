@@ -148,3 +148,28 @@ export const registerSchema: FastifySchema = {
         }
     }
 }
+
+export const verifyTokenSchema: FastifySchema = {
+    description: 'Verify a JWT token',
+    tags: ['Authentication'],
+    security: [{ bearerAuth: [] }],
+    response: {
+        200: {
+            description: 'Token verified successfully',
+            type: 'object',
+            properties: {
+                id: { type: 'number' },
+                email: { type: 'string' },
+                username: { type: 'string' },
+                is_admin: { type: 'boolean' }
+            }
+        },
+        401: {
+            description: 'Token verification failed',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        }
+    }
+}

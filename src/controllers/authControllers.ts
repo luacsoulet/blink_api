@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { LoginDto, RegisterDto } from "../dtos/authDtos";
 import bcrypt from 'bcrypt';
+import { AuthenticatedUser } from "../middleware/authMiddleware";
 
 export const loginUser = async (request: FastifyRequest<{ Body: LoginDto }>, reply: FastifyReply) => {
     const { email, password } = request.body;
@@ -80,4 +81,13 @@ export const registerUser = async (request: FastifyRequest<{ Body: RegisterDto }
     } finally {
         client.release();
     }
+}
+
+export const verifyToken = async (request: FastifyRequest, reply: FastifyReply) => {
+    const token = request.headers.authorization?.replace('Bearer ', '');
+    if (!token) {
+        return reply.code(401).send({ message: 'Token authentication missing' });
+    }
+    const decoded = await request.jwtVerify<AuthenticatedUser>();
+    return { id: decoded.id, email: decoded.email, username: decoded.username, is_admin: decoded.is_admin };
 }

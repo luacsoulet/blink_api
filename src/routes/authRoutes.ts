@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
-import { loginUser, registerUser } from "../controllers/authControllers";
-import { loginSchema, registerSchema } from "../dtos/authDtos";
+import { loginUser, registerUser, verifyToken } from "../controllers/authControllers";
+import { loginSchema, registerSchema, verifyTokenSchema } from "../dtos/authDtos";
+import { authenticate } from "../middleware/authMiddleware";
 
 export default async function authRoutes(fastify: FastifyInstance) {
     fastify.post('/login', {
@@ -9,4 +10,8 @@ export default async function authRoutes(fastify: FastifyInstance) {
     fastify.post('/register', {
         schema: registerSchema
     }, registerUser);
+    fastify.get('/verify-token', {
+        schema: verifyTokenSchema,
+        preHandler: [authenticate]
+    }, verifyToken);
 }
