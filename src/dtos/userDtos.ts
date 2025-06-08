@@ -236,6 +236,13 @@ export const deleteUserSchema: FastifySchema = {
                 message: { type: 'string' }
             }
         },
+        403: {
+            description: 'Forbidden - User can only delete their own account unless they are an admin',
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            }
+        },
         404: {
             description: 'User not found',
             type: 'object',

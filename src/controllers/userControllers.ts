@@ -90,7 +90,11 @@ export const deleteUser = async (request: FastifyRequest, reply: FastifyReply) =
     const client = await request.server.pg.connect();
 
     try {
-        const { rows } = await client.query('DELETE FROM users WHERE id = $1 AND id = $2 RETURNING *', [id, decoded.id]);
+        if (!decoded.is_admin && decoded.id !== id) {
+            return reply.code(403).send({ message: 'Forbidden: You can only delete your own account' });
+        }
+
+        const { rows } = await client.query('DELETE FROM users WHERE id = $1 RETURNING *', [id]);
         if (rows.length === 0) {
             return reply.code(404).send({ message: 'User not found' });
         }
